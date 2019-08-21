@@ -89,17 +89,23 @@ def save_trained_model(model, input_size, epochs, output_size, arch, learning_ra
     return 
     
     
-def load_saved_model(checkpoint):
+def load_saved_model(checkpoint, gpu):
     '''
     Inputs: 
     Model checkpoint
+    GPU
     Outputs: 
     Model - rebuilt model from saved checkpoint
     Class to index mapping
     '''
     # Load the model, find out what architecture was saved into the checkpoint
-    trained_model = torch.load(checkpoint)
-    arch = trained_model['arch'] 
+    if gpu and torch.cuda.is_available():
+        trained_model = torch.load(checkpoint)
+    else:
+        trained_model = torch.load(checkpoint, map_location = 'cpu')
+
+    # arch = trained_model['arch'] 
+    arch = 'vgg'
     
     # Rebuilds according to architecture
     if arch == 'vgg':

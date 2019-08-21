@@ -89,7 +89,7 @@ def main():
     args = get_predict_inputs()
     
     # Load checkpoint of previously trained model
-    model, class_to_idx = util.load_saved_model(args.checkpoint)
+    model, class_to_idx = util.load_saved_model(args.checkpoint, args.gpu)
     
     # Predict for image file
     sample_prob, sample_classes = predict_image(args.image_file, model, class_to_idx, args.top_k, args.gpu)
